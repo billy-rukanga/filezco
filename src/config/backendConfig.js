@@ -1,10 +1,10 @@
-import ThirdPartyEmailPasswordNode from "supertokens-node/recipe/thirdpartyemailpassword";
-import SessionNode from "supertokens-node/recipe/session";
-import { appInfo } from "./appInfo";
+import ThirdPartyEmailPasswordNode from 'supertokens-node/recipe/thirdpartyemailpassword'
+import SessionNode from 'supertokens-node/recipe/session'
+import { appInfo } from './appInfo'
 
-export let backendConfig = () => {
+export const backendConfig = () => {
   return {
-    framework: "express",
+    framework: 'express',
     supertokens: {
       connectionURI: process.env.CONNECTION_URI,
       apiKey: process.env.API_KEY
@@ -26,5 +26,5 @@ export let backendConfig = () => {
       SessionNode.init()
     ],
     isInServerlessEnv: true
-  };
-};
+  }
+}

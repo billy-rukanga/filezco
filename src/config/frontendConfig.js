@@ -2,7 +2,7 @@ import ThirdPartyEmailPasswordReact from 'supertokens-auth-react/recipe/thirdpar
 import SessionReact from 'supertokens-auth-react/recipe/session'
 import { appInfo } from './appInfo'
 
-export let frontendConfig = () => {
+export const frontendConfig = () => {
   return {
     appInfo,
     recipeList: [
@@ -14,10 +14,10 @@ export let frontendConfig = () => {
           providers: [
             ThirdPartyEmailPasswordReact.Google.init(),
             ThirdPartyEmailPasswordReact.Github.init()
-          ],
-        },
+          ]
+        }
       }),
-      SessionReact.init(),
-    ],
+      SessionReact.init()
+    ]
   }
 }

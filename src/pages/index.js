@@ -1,34 +1,39 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-import Image from "next/image";
-import supertokensNode from "supertokens-node";
-import { backendConfig } from "../config/backendConfig";
-import Session from "supertokens-node/recipe/session";
-import Dropzone from "../components/Dropzone";
+import React from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
+import { PropTypes } from 'prop-types'
+import supertokensNode from 'supertokens-node'
+import Session from 'supertokens-node/recipe/session'
+import Dropzone from '../components/Dropzone'
+import styles from '../styles/Home.module.css'
+import { backendConfig } from '../config/backendConfig'
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps (context) {
   // this runs on the backend, so we must call init on supertokens-node SDK
-  supertokensNode.init(backendConfig());
-  let session;
+  supertokensNode.init(backendConfig())
+  let session
   try {
-    session = await Session.getSession(context.req, context.res);
+    session = await Session.getSession(context.req, context.res)
   } catch (err) {
     if (err.type === Session.Error.TRY_REFRESH_TOKEN) {
-      return { props: { fromSupertokens: "needs-refresh" } };
+      return { props: { fromSupertokens: 'needs-refresh' } }
     } else if (err.type === Session.Error.UNAUTHORISED) {
-      return { props: {} };
+      return { props: {} }
     } else {
-      throw err;
+      throw err
     }
   }
 
   return {
     props: { userId: session.getUserId() }
-  };
+  }
 }
 
-export default function Home({ userId }) {
+Home.propTypes = {
+  userId: PropTypes.string
+}
+export default function Home ({ userId }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -38,7 +43,7 @@ export default function Home({ userId }) {
       </Head>
 
       <header>
-        <Image src='/logo.png' alt="fz" width={64} height={64}/>
+        <Image src="/logo.png" alt="fz" width={64} height={64} />
         <div className={`flex ${styles.title}`}>
           <a>Upload</a>
           <a>Board</a>
@@ -62,17 +67,21 @@ export default function Home({ userId }) {
       </header>
 
       <main className={styles.main}>
-      <div className={styles.flexItemRight}>
-        <Dropzone />
+        <div className={styles.flexItemRight}>
+          <Dropzone />
         </div>
         <div className={styles.flexItemLeft}>
-        <h1>Simple.<br /><span className="text-color-primary">Sharing</span></h1>
+          <h1>
+            Simple.<br />
+            <span className="text-color-primary">Sharing</span>
+          </h1>
         </div>
       </main>
 
       <footer className={styles.footer}>
-        Powered by <span style={{ fontWeight: "bold", marginLeft: 4 }}> filezco</span>
+        Powered by{' '}
+        <span style={{ fontWeight: 'bold', marginLeft: 4 }}> filezco</span>
       </footer>
     </div>
-  );
+  )
 }

@@ -1,9 +1,16 @@
-import styles from "./Button.module.css";
+import React from 'react'
+import PropTypes from 'prop-types'
+import styles from './Button.module.css'
 
-export default function Button({ onClick, loading }) {
+Button.propTypes = {
+  onClick: PropTypes.func,
+  loading: PropTypes.bool
+}
+
+export default function Button ({ onClick, loading }) {
   return (
     <button className={styles.btn} disabled={loading} onClick={onClick}>
       Upload
     </button>
-  );
+  )
 }

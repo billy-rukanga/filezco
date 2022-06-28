@@ -11,5 +11,5 @@ export const appInfo = {
   appName: 'shea',
   websiteDomain,
   apiDomain: websiteDomain,
-  apiBasePath,
+  apiBasePath
 }
