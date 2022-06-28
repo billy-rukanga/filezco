@@ -34,7 +34,7 @@ export default function Dropzone () {
     const file = acceptedFiles[0]
     formData.append(file.path, file)
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('api/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

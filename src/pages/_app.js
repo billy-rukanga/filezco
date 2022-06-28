@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
 }
 
 MyApp.propTypes = {
-  Component: PropTypes.node,
+  Component: PropTypes.func,
   pageProps: PropTypes.object
 }
 
