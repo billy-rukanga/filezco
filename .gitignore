@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+#environment variables
+next.config.js
+
 # testing
 /coverage
 

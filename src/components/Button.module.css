@@ -1,0 +1,17 @@
+.btn {
+    background-color: #8900ff;
+    border-radius: 8px;
+    width: 70%;
+    height: 42px;
+    margin: auto;
+    color: white;
+    border: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    opacity: 40%;
+}
