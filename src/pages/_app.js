@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
-import { Provider } from 'react-redux'
 import PropTypes from 'prop-types'
 import SuperTokensReact from 'supertokens-auth-react'
 import * as SuperTokensConfig from '../config/frontendConfig'
 import Session from 'supertokens-auth-react/recipe/session'
 import { redirectToAuth } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import store from '../app/store'
 import '../styles/globals.css'
 
 if (typeof window !== 'undefined') {
@@ -43,9 +41,7 @@ function MyApp ({ Component, pageProps }) {
   }
 
   return (
-    <Provider store={store}>
       <Component {...pageProps} />
-    </Provider>
   )
 }
 
