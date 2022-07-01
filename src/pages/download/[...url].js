@@ -39,7 +39,22 @@ Home.propTypes = {
 export default function Home ({ userId }) {
   const router = useRouter()
   const { url } = router.query
-  console.log(url)
+  const [link, setLink] = React.useState('')
+
+  React.useEffect(() => {
+    setLink(
+      process.env.NEXT_PUBLIC_URL +
+        '/' +
+        url[0] +
+        '/' +
+        url[1] +
+        '/' +
+        window.location.search
+    )
+  }, [])
+
+  console.log(link)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -48,8 +63,8 @@ export default function Home ({ userId }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>
-      <Link href="/">
-        <Image src="/logo.png" alt="fz" width={48} height={48} />
+        <Link href="/">
+          <Image src="/logo.png" alt="fz" width={48} height={48} />
         </Link>
         {userId
           ? <Account />
@@ -60,25 +75,41 @@ export default function Home ({ userId }) {
 
       <main className={styles.main}>
         <div className={styles.flexItemRight}>
-          <div className="card" style={{
-            width: 400,
-            maxWidth: '100%'
-          }}>
-            <Button>
-              <i className="bi bi-arrow-bar-down" />
-              <span
-                style={{
-                  marginLeft: 4
-                }}
-              >
-                Download
-              </span>
-            </Button>
+          <div
+            className="card"
+            style={{
+              width: 400,
+              maxWidth: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              zIndex: 1
+            }}
+          >
+            <p>
+              {url[1]}
+            </p>
+            <br />
+            <Link href={link} download>
+              <Button>
+                <i className="bi bi-arrow-bar-down" />
+                <span
+                  style={{
+                    marginLeft: 4
+                  }}
+                >
+                  Download
+                </span>
+              </Button>
+            </Link>
           </div>
         </div>
         <div className={styles.flexItemLeft}>
           <h1>
-            Simple.<br />
+            Simple.<span className="text-color-secondary">Easy</span>
+            <br />
             <span className="text-color-primary">Sharing</span>
           </h1>
         </div>

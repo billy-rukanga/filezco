@@ -22,7 +22,7 @@ export default function Account () {
   return (
     <div style={{ position: 'relative' }} ref={ref}>
       <img
-        src="https://ui-avatars.com/api/?name=John+Doe&rounded=true&size=54"
+        src="https://ui-avatars.com/api/?name=U&rounded=true&size=54"
         alt="avatar"
       />
       <Popover show={show} />
