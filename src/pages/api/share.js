@@ -1,17 +1,27 @@
+import formData from 'form-data'
+import Mailgun from 'mailgun.js'
+
 export default async function handler (req, res) {
-  try {
-    const response = await fetch(process.env.CREATE_OBJECT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ ...req.body, expires_in: 86400 }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.LINODE_TOKEN}`
-      }
-    })
-    const data = await response.json()
-    res.status(200).json(data)
-  } catch (error) {
-    console.log(error)
-    res.status(500).send()
+  const API_KEY = process.env.EMAIL_API_KEY
+  const DOMAIN = 'filezco.com'
+
+  const mailgun = new Mailgun(formData)
+  const client = mailgun.client({ username: 'api', key: API_KEY })
+
+  const messageData = {
+    from: 'email@filezco.com',
+    to: req.body.from,
+    subject: 'Hello',
+    text: 'Testing some Mailgun awesomeness!'
   }
+
+  client.messages
+    .create(DOMAIN, messageData)
+    .then(response => {
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      console.log(err)
+      res.sendStatus(500)
+    })
 }

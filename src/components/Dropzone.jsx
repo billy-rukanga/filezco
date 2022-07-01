@@ -103,6 +103,7 @@ export default function Dropzone ({ user }) {
 
   const shareLink = () => {
     navigator.clipboard.writeText(accessUrl)
+    alert('link copied to clipboard')
     window.location.href = '/'
   }
   return (
@@ -131,7 +132,7 @@ export default function Dropzone ({ user }) {
                   </aside>
                 : <br />}
               <Button
-                onClick={() => (accessUrl ? shareLink : handleUpload)}
+                onClick={() => (accessUrl ? shareLink() : handleUpload())}
                 disabled={disabled || loading}
               >
                 {accessUrl
