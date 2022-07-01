@@ -7,11 +7,21 @@
     color: white;
     border: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
+    position: relative;
 }
 
 .btn:disabled {
     opacity: 40%;
+}
+
+.loader {
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #8900ff;
 }

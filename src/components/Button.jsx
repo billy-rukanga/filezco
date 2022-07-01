@@ -4,13 +4,21 @@ import styles from './Button.module.css'
 
 Button.propTypes = {
   onClick: PropTypes.func,
-  loading: PropTypes.bool
+  disabled: PropTypes.bool,
+  children: PropTypes.node,
+  uploadProgress: PropTypes.number
 }
 
-export default function Button ({ onClick, loading }) {
+export default function Button ({
+  onClick,
+  disabled,
+  uploadProgress,
+  children
+}) {
   return (
-    <button className={styles.btn} disabled={loading} onClick={onClick}>
-      Upload
+    <button className={styles.btn} disabled={disabled} onClick={onClick}>
+      <span className={styles.loader} style={{ width: uploadProgress }} />
+      {children}
     </button>
   )
 }

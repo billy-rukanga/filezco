@@ -9,13 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.1.1",
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-regular-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.1.18",
     "@react-spring/web": "^9.4.5",
     "@reduxjs/toolkit": "^1.8.2",
+    "axios": "^0.27.2",
+    "bootstrap-icons": "^1.8.3",
     "next": "12.1.6",
     "nextjs-cors": "^2.1.1",
     "node-libcurl": "^2.3.4",
@@ -23,8 +20,11 @@
     "react-dom": "18.1.0",
     "react-dropzone": "^14.2.1",
     "react-redux": "^8.0.2",
+    "react-tsparticles": "^2.1.0",
     "supertokens-auth-react": "^0.22.2",
-    "supertokens-node": "^9.2.3"
+    "supertokens-node": "^9.2.3",
+    "tsparticles": "^2.1.0",
+    "tsparticles-preset-firefly": "^2.1.0"
   },
   "devDependencies": {
     "eslint": "^8.0.1",

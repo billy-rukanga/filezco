@@ -5,12 +5,9 @@ import SuperTokensReact from 'supertokens-auth-react'
 import * as SuperTokensConfig from '../config/frontendConfig'
 import Session from 'supertokens-auth-react/recipe/session'
 import { redirectToAuth } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import store from '../app/store'
 import '../styles/globals.css'
-
-config.autoAddCss = false
 
 if (typeof window !== 'undefined') {
   SuperTokensReact.init(SuperTokensConfig.frontendConfig())

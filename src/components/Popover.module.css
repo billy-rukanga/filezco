@@ -1,0 +1,15 @@
+.popover {
+    position: absolute;
+    top: 48px;
+    right: 0px;
+    width: 180px;
+    box-shadow: 2px 2px 5px gray;
+}
+
+.btn {
+    border: none;
+    background-color: transparent;
+    color: black;
+    display: flex;
+    justify-content: center;
+}

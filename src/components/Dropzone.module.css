@@ -6,4 +6,20 @@
     background-color: white;
     border-radius: 16px;
     box-shadow: 8px 8px 36px rgb(216, 215, 215);
+    position: relative;
+    z-index: 1;
+}
+
+.uploadIcon {
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #8900ff;
+}
+
+.uploadIcon h6 {
+    color: black;
+    margin-block: 0px;
 }
