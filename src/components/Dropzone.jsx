@@ -2,15 +2,23 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { animated, useSpring } from '@react-spring/web'
 import axios from 'axios'
+import { PropTypes } from 'prop-types'
 import Button from './Button'
 import styles from './Dropzone.module.css'
+import { Circle } from 'rc-progress'
 
-export default function Dropzone () {
+Dropzone.propTypes = {
+  user: PropTypes.string
+}
+
+export default function Dropzone ({ user }) {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone()
   const [loading, setLoading] = useState(false)
   const [disabled, setDisabled] = useState(true)
   const [accessUrl, setAccessUrl] = useState()
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [step, setStep] = useState('default')
+  const [error, setError] = useState()
 
   const springStyles = useSpring({
     loop: { reverse: false },
@@ -26,8 +34,10 @@ export default function Dropzone () {
 
   useEffect(
     () => {
-      if (files.length > 0) setDisabled(false)
-      else setDisabled(true)
+      if (files.length > 0) {
+        setDisabled(false)
+        setError()
+      } else setDisabled(true)
     },
     [files]
   )
@@ -41,6 +51,8 @@ export default function Dropzone () {
 
   const handleUpload = async () => {
     setLoading(true)
+    setError()
+    setStep('Creating upload link')
     const file = acceptedFiles[0]
     const content = new Blob([file], { type: file.type })
     try {
@@ -57,6 +69,7 @@ export default function Dropzone () {
       })
       const data = await response.json()
       // uploading file
+      setStep('Uploading file')
       const config = {
         headers: { 'content-type': content.type },
         onUploadProgress: function (progressEvent) {
@@ -68,6 +81,7 @@ export default function Dropzone () {
       await axios.put(data.url, content, config)
 
       // get signed file url
+      setStep('Signing url')
       const signedUrl = await fetch('api/upload', {
         method: 'POST',
         headers: {
@@ -79,58 +93,104 @@ export default function Dropzone () {
       url = manageUrl(url)
       setAccessUrl(url)
       setLoading(false)
+      setStep('default')
     } catch (error) {
       setLoading(false)
-      console.log(error)
+      setStep('default')
+      setError('Failed to upload. Try again')
     }
   }
 
+  const shareLink = () => {
+    navigator.clipboard.writeText(accessUrl)
+    window.location.href = '/'
+  }
   return (
-    <animated.div style={springStyles}>
-      <section className={styles.container}>
-        <div {...getRootProps({ className: 'dropzone' })}>
-          <input {...getInputProps()} />
-          <div className={styles.uploadIcon}>
-            <i className="bi bi-plus-circle" />
-            <h6>Add files</h6>
-          </div>
-        </div>
-        {files.length > 0
-          ? <aside>
-              <h4>Files</h4>
-              <ul>
-                {files}
-              </ul>
-            </aside>
-          : <br />}
-        <Button
-          onClick={handleUpload}
-          disabled={disabled || loading}
-          uploadProgress={uploadProgress}
-        >
-          {accessUrl
-            ? <Fragment>
-                <i className="bi bi-share-fill" />
-                <span
-                  style={{
-                    marginLeft: 4
-                  }}
-                >
-                  Share
-                </span>
-              </Fragment>
-            : <Fragment>
-                <i className="bi bi-upload" />
-                <span
-                  style={{
-                    marginLeft: 4
-                  }}
-                >
-                  Upload
-                </span>
-              </Fragment>}
-        </Button>
-      </section>
-    </animated.div>
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 1
+      }}
+    >
+      {step === 'default'
+        ? <animated.div style={springStyles}>
+            <section className={styles.container}>
+              <div {...getRootProps({ className: 'dropzone' })}>
+                <input {...getInputProps()} />
+                <div className={styles.uploadIcon}>
+                  <i className="bi bi-plus-circle" />
+                  <h6>Add files</h6>
+                </div>
+              </div>
+              {files.length > 0
+                ? <aside>
+                    <h4>Files</h4>
+                    <ul>
+                      {files}
+                    </ul>
+                  </aside>
+                : <br />}
+              <Button
+                onClick={() => (accessUrl ? shareLink : handleUpload)}
+                disabled={disabled || loading}
+              >
+                {accessUrl
+                  ? <Fragment>
+                      <i className="bi bi-share-fill" />
+                      <span
+                        style={{
+                          marginLeft: 4
+                        }}
+                      >
+                        Share
+                      </span>
+                    </Fragment>
+                  : <Fragment>
+                      <i className="bi bi-upload" />
+                      <span
+                        style={{
+                          marginLeft: 4
+                        }}
+                      >
+                        Upload
+                      </span>
+                    </Fragment>}
+              </Button>
+              {error &&
+                <p style={{ color: 'red' }}>
+                  {error}
+                </p>}
+            </section>
+          </animated.div>
+        : <Progress step={step} percent={uploadProgress} />}
+    </div>
   )
+}
+
+const Progress = ({ step, percent }) =>
+  <div
+    className="card"
+    style={{
+      width: 400,
+      maxWidth: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column'
+    }}
+  >
+    <Circle
+      style={{ width: '60%', marginBottom: 16 }}
+      percent={percent}
+      strokeWidth={6}
+      strokeColor="#8900ff"
+    />
+    <p>
+      {step}
+    </p>
+  </div>
+
+Progress.propTypes = {
+  percent: PropTypes.number,
+  step: PropTypes.string
 }

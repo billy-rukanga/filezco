@@ -54,7 +54,7 @@ export default function Home ({ userId }) {
 
       <main className={styles.main}>
         <div className={styles.flexItemRight}>
-          <Dropzone />
+          <Dropzone user={userId}/>
         </div>
         <div className={styles.flexItemLeft}>
           <h1>

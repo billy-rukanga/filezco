@@ -6,8 +6,6 @@
     background-color: white;
     border-radius: 16px;
     box-shadow: 8px 8px 36px rgb(216, 215, 215);
-    position: relative;
-    z-index: 1;
 }
 
 .uploadIcon {
