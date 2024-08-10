@@ -12,39 +12,30 @@ export default function Home () {
   const { url } = router.query
   const [link, setLink] = React.useState('')
 
-  React.useEffect(
-    () => {
-      if (url) {
-        setLink(
-          process.env.NEXT_PUBLIC_URL +
-            '/' +
-            url[0] +
-            '/' +
-            url[1] +
-            window.location.search
-        )
-      }
-    },
-    [url]
-  )
+  React.useEffect(() => {
+    if (url) {
+      const urlLink = `${process.env.NEXT_PUBLIC_URL}/${url[0]}${window.location.search}`
+      setLink(urlLink)
+    }
+  }, [url])
 
   return (
     <div className={styles.container}>
       <Head>
         <title>filezco | share files</title>
-        <meta name="description" content="Share files" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Share files' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <header>
-        <Link href="/">
-          <Image src="/logo.png" alt="fz" width={48} height={48} />
+        <Link href='/'>
+          <Image src='/logo.png' alt='fz' width={48} height={48} />
         </Link>
       </header>
 
       <main className={styles.main}>
         <div className={styles.flexItemRight}>
           <div
-            className="card"
+            className='card'
             style={{
               width: 400,
               maxWidth: '100%',
@@ -56,13 +47,11 @@ export default function Home () {
               zIndex: 1
             }}
           >
-            <p>
-              {url && url[1]}
-            </p>
+            <p>{url && url[1]}</p>
             <br />
             <Link href={link} download>
               <Button>
-                <i className="bi bi-arrow-bar-down" />
+                <i className='bi bi-arrow-bar-down' />
                 <span
                   style={{
                     marginLeft: 4
@@ -76,9 +65,9 @@ export default function Home () {
         </div>
         <div className={styles.flexItemLeft}>
           <h1>
-            Simple.<span className="text-color-secondary">Easy</span>
+            Simple.<span className='text-color-secondary'>Easy</span>
             <br />
-            <span className="text-color-primary">Sharing</span>
+            <span className='text-color-primary'>Sharing</span>
           </h1>
         </div>
       </main>

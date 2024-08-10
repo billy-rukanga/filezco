@@ -54,7 +54,6 @@ export default function Dropzone ({ user }) {
     setError()
     setStep('Creating upload link')
     const file = acceptedFiles[0]
-    const content = new Blob([file], { type: file.type })
     try {
       const response = await fetch('api/upload', {
         method: 'POST',
@@ -62,7 +61,6 @@ export default function Dropzone ({ user }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          method: 'PUT',
           name: file.path,
           content_type: file.type
         })
@@ -71,33 +69,40 @@ export default function Dropzone ({ user }) {
       // uploading file
       setStep('Uploading file')
       const config = {
-        headers: { 'content-type': content.type },
+        headers: {
+          'content-type': file.type,
+          'x-amz-acl': 'private'
+        },
         onUploadProgress: function (progressEvent) {
           setUploadProgress(
             Math.round(progressEvent.loaded * 100 / progressEvent.total)
           )
         }
       }
-      await axios.put(data.url, content, config)
+
+      const formData = new FormData()
+      formData.append('file', file)
+      await axios.put(data.url, formData, config)
 
       // get signed file url
       setStep('Signing url')
-      const signedUrl = await fetch('api/upload', {
+      const signedUrl = await fetch('api/download-link', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ method: 'GET', name: file.path })
+        body: JSON.stringify({ name: file.path })
       })
       let { url } = await signedUrl.json()
       url = manageUrl(url)
       setAccessUrl(url)
-      setLoading(false)
       setStep('default')
     } catch (error) {
-      setLoading(false)
+      console.log(error)
       setStep('default')
       setError('Failed to upload. Try again')
+    } finally {
+      setLoading(false)
     }
   }
 
